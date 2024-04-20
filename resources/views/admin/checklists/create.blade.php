@@ -40,7 +40,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="">{{ __('Name') }}</label>
-                            <input type="text" class="form-control" id="inputName" name="name"
+                            <input value="{{old('name')}}" type="text" class="form-control" id="inputName" name="name"
                                 placeholder="Checklist GroupName" required>
                         </div>
                         <div class="form-group mb-0 mt-3 justify-content-end">

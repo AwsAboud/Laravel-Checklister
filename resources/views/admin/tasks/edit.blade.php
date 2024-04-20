@@ -32,20 +32,24 @@
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
             <div class="card  box-shadow-0">
                 <div class="card-header">
-                    <h4 class="card-title mb-1">{{ __('New Checklist Group') }}</h4>
+                    <h4 class="card-title mb-1">{{ __('Update Task') }}</h4>
                 </div>
                 <div class="card-body pt-0">
 
-                    <form class="form-horizontal" action="{{ route('admin.checklist-groups.store') }}" method="POST">
+                    <form class="form-horizontal" action="{{ route('admin.checklists.tasks.update', [$checklist, $task]) }}" method="POST">
                         @csrf
+                        @method('patch')
                         <div class="form-group">
-                            <label for="">{{ __('Name') }}</label>
-                            <input value="{{old('name')}}" type="text" class="form-control" id="inputName" name="name"
-                                placeholder="Checklist GroupName" required>
+                            <label for="name">{{ __('Name') }}</label>
+                            <input type="text" value="{{$task->name}}" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">{{ __('Description') }}</label>
+                            <textarea class="form-control" id="description" name="description" rows="5" required> {{$task->description}} </textarea>
                         </div>
                         <div class="form-group mb-0 mt-3 justify-content-end">
                             <div>
-                                <button type="submit" class="btn btn-primary">{{ __('save') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                             </div>
                         </div>
                     </form>

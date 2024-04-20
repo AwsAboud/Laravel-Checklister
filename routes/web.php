@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ChecklistController;
 use App\Http\Controllers\Admin\ChecklistGroupController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +27,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
    Route::group(['middleware' => 'is_admin', 'prefix' => 'admin', 'as' => 'admin.'],function () {
         Route::resource('pages', PageController::class);
-        Route::resource('checklist-groups', ChecklistGroupController::class);
-        Route::resource('checklist-groups.checklists', ChecklistController::class);
+        Route::resource('checklist-groups', ChecklistGroupController::class)->except(['index', 'show']);
+        Route::resource('checklist-groups.checklists', ChecklistController::class)->except(['index', 'show']);
+        Route::resource('checklists.tasks', TaskController::class)->except(['index', 'show', 'create']);
 
    });
 });
