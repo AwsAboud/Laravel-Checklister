@@ -31,7 +31,9 @@
 				@include('layouts.models')
             	{{-- @include('layouts.footer') --}}
 				@include('layouts.footer-scripts')
+                <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
                 @livewireScripts
                 <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v1.x.x/dist/livewire-sortable.js"></script>
+                @yield('scripts')
 	</body>
 </html>
