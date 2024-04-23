@@ -91,7 +91,7 @@
             </div>
         </div>
         </hr>
-        {{-- tasl table --}}
+        {{-- Task Table --}}
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header pb-0">
@@ -102,38 +102,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table mg-b-0 text-md-nowrap">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Operations') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($checklist->tasks as $task)
-                                <tr>
-                                    <td> {{$task->name}} </td>
-                                    <td>
-                                         {{-- Edit --}}
-                                        <a href="{{ route('admin.checklists.tasks.edit', [$checklist, $task]) }}"
-                                            class="btn btn-primary  btn-sm" >
-                                            {{ __('Edit') }}
-                                        </a>
-                                         {{-- Delete --}}
-                                        <form style="display: inline-block" action="{{ route('admin.checklists.tasks.destroy', [$checklist, $task]) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                                <div>
-                                                    <button type="submit" class="btn btn-danger  btn-sm"
-                                                    onclick="return confirm('{{ __('Are you sure yo whant to delete this ?')}}')">{{ __('Delete') }}</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        @livewire('tasks-table', ['checklist' => $checklist])
                     </div>
                 </div>
             </div>
