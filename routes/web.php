@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\ChecklistController;
-use App\Http\Controllers\Admin\ChecklistGroupController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\TaskController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ChecklistController;
+use App\Http\Controllers\Admin\ChecklistGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('checklist-groups', ChecklistGroupController::class)->except(['index', 'show']);
         Route::resource('checklist-groups.checklists', ChecklistController::class)->except(['index', 'show']);
         Route::resource('checklists.tasks', TaskController::class)->except(['index', 'show', 'create']);
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
 
    });
 });
