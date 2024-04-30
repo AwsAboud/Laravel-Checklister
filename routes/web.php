@@ -18,9 +18,7 @@ use App\Http\Controllers\Admin\ChecklistGroupController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::redirect('/', 'welcome');
 
 Route::get('/dashboard', function () {
     return view('index');
@@ -29,6 +27,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('welcome', [App\Http\Controllers\PageController::class, 'welcome'])->name('welcome');
     Route::get('consultation', [App\Http\Controllers\PageController::class, 'consultation'])->name('consultation');
+    Route::get('users/{checklist}', [App\Http\Controllers\User\ChecklistController::class, 'show'])->name('user.checklists.show');
 
     Route::group(['middleware' => 'is_admin', 'prefix' => 'admin', 'as' => 'admin.'],function () {
         Route::resource('pages', PageController::class)->only(['edit', 'update']);
