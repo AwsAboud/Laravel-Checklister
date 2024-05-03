@@ -9,7 +9,7 @@ class ChecklistService
 
     public function sync_checklis(Checklist $checklist, int $user_id): Checklist
     {
-        return Checklist::firstOrCreate(
+        $checklist = Checklist::firstOrCreate(
             [
                 'user_id' => $user_id,
                 'checklist_id' => $checklist->id,
@@ -19,5 +19,10 @@ class ChecklistService
                 'name' => $checklist->name,
             ]
         );
+
+        //set the updated at column to the current time whenever the user click on the checklist
+        $checklist->touch();
+
+        return $checklist;
     }
 }

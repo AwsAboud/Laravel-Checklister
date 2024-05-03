@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
     return view('index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'save_last_action_timestamp'])->group(function () {
     Route::get('welcome', [App\Http\Controllers\PageController::class, 'welcome'])->name('welcome');
     Route::get('consultation', [App\Http\Controllers\PageController::class, 'consultation'])->name('consultation');
     Route::get('users/{checklist}', [App\Http\Controllers\User\ChecklistController::class, 'show'])->name('user.checklists.show');
