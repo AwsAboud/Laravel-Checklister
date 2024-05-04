@@ -12,13 +12,15 @@ class Task extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
 
-    protected $fillable = ['name', 'description','checklist_id','position'];
-
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-            ->width(600);
-    }
+    protected $fillable = [
+        'name',
+        'description',
+        'checklist_id',
+        'position',
+        'user_id',
+        'task_id',
+        'completed_at',
+    ];
 
 }
 
