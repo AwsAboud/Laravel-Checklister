@@ -139,10 +139,5 @@
 @endsection
 @section('scripts')
 <script>
-    ClassicEditor
-        .create( document.querySelector( '#description' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-</script>
+    @include('admin.ckeditor')
 @endsection
