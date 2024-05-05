@@ -138,6 +138,5 @@
    <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
 @endsection
 @section('scripts')
-<script>
     @include('admin.ckeditor')
 @endsection

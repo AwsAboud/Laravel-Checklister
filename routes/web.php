@@ -36,7 +36,7 @@ Route::middleware(['auth', 'save_last_action_timestamp'])->group(function () {
         Route::resource('checklist-groups.checklists', ChecklistController::class)->except(['index', 'show']);
         Route::resource('checklists.tasks', TaskController::class)->except(['index', 'show', 'create']);
         Route::get('users', [UserController::class, 'index'])->name('users.index');
-        Route::post('image-upload', [ImageController::class, 'store'])->name('image.store');
+        Route::post('image-upload', [ImageController::class, 'store'])->name('images.store');
    });
 });
 

@@ -107,7 +107,7 @@
     }
 
     ClassicEditor
-        .create( document.querySelector( '#task-textarea' ), {
+        .create( document.querySelector( '#description' ), {
             extraPlugins: [ SimpleUploadAdapterPlugin ],
         } )
         .then( editor => {
