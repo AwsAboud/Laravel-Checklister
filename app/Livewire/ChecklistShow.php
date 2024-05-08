@@ -44,7 +44,9 @@ class ChecklistShow extends Component
 
         $task = Task::find($taskId);
         if($task){
-            $userTask = Task::where('task_id',$taskId)->first();
+            $userTask = Task::where('task_id',$taskId)
+                ->where('user_id',auth()->id())
+                ->first();
             if($userTask){
                 if(is_null($userTask->completed_at)){
                     $userTask->update(['completed_at' => now()]);
