@@ -57,6 +57,8 @@ class ChecklistShow extends Component
                 $userTask['task_id'] = $taskId;
                 $userTask->save();
             }
+
+            $this->dispatch('task_complete', taskId: $taskId, checklistId: $task->checklist_id);
         }
     }
 }

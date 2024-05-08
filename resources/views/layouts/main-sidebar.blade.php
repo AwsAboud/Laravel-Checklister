@@ -133,9 +133,9 @@
                             </svg>
                             <span class="side-menu__label">{{ $group['name'] }}</span>
                             @if ($group['is_new'])
-                                <span class="badge badge-danger side-badge">New</span>
+                                <span class="badge badge-primary side-badge ml-1">New</span>
                             @elseif ($group['is_updated'])
-                                <span class="badge badge-danger side-badge">UPD</span>
+                                <span class="badge badge-primary side-badge ml-1">UPD</span>
                             @endif
                         </a>
                 <ul class="slide-menu">
@@ -150,10 +150,15 @@
                                         d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
                                 </svg>
                                 <span>{{ $checklist['name'] }}</span>
+                                @livewire('completed-tasks-counter', [
+                                    'completed_tasks' => count($checklist['user_tasks']),
+                                    'tasks_count' => count($checklist['tasks']),
+                                    'checklist_id' => $checklist['id']
+                                    ])
                                 @if ($checklist['is_new'])
-                                    <span class="badge badge-danger">New</span>
+                                    <span class="badge badge-primary ml-1">New</span>
                                 @elseif ($checklist['is_updated'])
-                                    <span class="badge badge-danger">UPD</span>
+                                    <span class="badge badge-primary ml-1">UPD</span>
                                 @endif
                             </a>
                         </li>
