@@ -6,18 +6,12 @@
 
 @section('page-header')
     <!-- breadcrumb -->
-    <div class="breadcrumb-header justify-content-between">
-        <div class="left-content">
-            <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">{{ __('My Checklist') }}</h2>
-            </div>
-        </div>
-    </div>
+    @livewire('header-totals-count', ['checklist_group_id' => $checklist->checklist_group_id])
     <!-- /breadcrumb -->
 @endsection
 
 @section('content')
-    @livewire('checklist-show', ['checklist'=> $checklist]);
+    @livewire('checklist-show', ['checklist'=> $checklist])
 @endsection
 
 @section('js')
