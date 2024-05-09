@@ -11,7 +11,7 @@ class ChecklistShow extends Component
     public $opendTasks = [];
     public $completedTasks = [];
 
-     public function mount()
+    public function mount()
     {
         $this->completedTasks = Task::where('checklist_id', $this->checklist->id)
         ->where('user_id', auth()->id())
@@ -50,17 +50,23 @@ class ChecklistShow extends Component
             if($userTask){
                 if(is_null($userTask->completed_at)){
                     $userTask->update(['completed_at' => now()]);
+                    $this->completedTasks[] = $taskId;
+                    $this->dispatch('task_complete', taskId: $taskId, checklistId: $task->checklist_id);
+                } else{
+                    $userTask->delete();
+                    $this->dispatch('task_complete', taskId: $taskId, checklistId: $task->checklist_id, countChange: -1);
                 }
-            }
-            else{
+
+            } else{
                 $userTask = $task->replicate();
                 $userTask['completed_at'] = now();
                 $userTask['user_id'] = auth()->id();
                 $userTask['task_id'] = $taskId;
                 $userTask->save();
+                $this->completedTasks[] = $taskId;
+                $this->dispatch('task_complete', taskId: $taskId, checklistId: $task->checklist_id);
             }
 
-            $this->dispatch('task_complete', taskId: $taskId, checklistId: $task->checklist_id);
         }
     }
 }

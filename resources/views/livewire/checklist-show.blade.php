@@ -11,7 +11,7 @@
                 <tbody>
                     @foreach ($checklist->tasks->where('user_id', NULL) as $task)
                     <tr>
-                        <td> <input type="radio" wire:click="completeTask({{$task->id}})"
+                        <td> <input type="checkbox" wire:click="completeTask({{$task->id}})"
                             @if (in_array($task->id, $completedTasks)) checked="checked" @endif> </td>
                         <td wire:click="toggleTask({{$task->id}})">{{ $task->name }} </td>
                         <td wire:click="toggleTask({{$task->id}})">

@@ -18,5 +18,6 @@ class CompletedTasksCounter extends Component
         if ($checklistId == $this->checklist_id) {
             $this->completed_tasks += $countChange;
         }
+
     }
 }
