@@ -120,6 +120,40 @@
                 </li>
                 {{-- not admin user --}}
             @else
+            {{-- @foreach ($user_tasks_menu as $key => $user_task_menu)
+            <li class="c-sidebar-nav-item">
+                <a class="c-sidebar-nav-link"
+                   href="#">
+                    <svg class="c-sidebar-nav-icon">
+                        {{-- <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-' . $user_task_menu['icon']) }}"></use> --}}
+                    {{-- </svg> --}}
+                    {{-- {{ $user_task_menu['name'] }}
+                    @livewire('user-tasks-counter', [
+                        'task_type' => $key,
+                        'tasks_count' => $user_task_menu['tasks_count'],
+                    ])
+                </a> --}}
+            {{-- </li> --}}
+            {{-- @endforeach --}}
+            @foreach ($user_tasks_menu as $key => $user_task_menu)
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="{{ url('/' . ($page = '#')) }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0V0z" fill="none" />
+                        <path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+                            opacity=".3" />
+                        <path
+                            d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
+                    </svg>
+                    <span class="side-menu__label">{{ $user_task_menu['name'] }}</span>
+                    @livewire('user-tasks-counter', [
+                        'task_type' => $key,
+                        'tasks_count' => $user_task_menu['tasks_count'],
+                    ])
+                </a>
+            </li>
+            @endforeach
+
                 {{-- the $userMenu comes from the Http/View/Compoer/MenuComposer --}}
                 @foreach ($userMenu as $group)
                     <li class="slide">
@@ -151,7 +185,8 @@
                                 </svg>
                                 <span>{{ $checklist['name'] }}</span>
                                 @livewire('completed-tasks-counter', [
-                                    'completed_tasks' => count($checklist['user_tasks']),
+                                    //user_completed_tasks a relation  check both MenuService and Checklist classes
+                                    'completed_tasks' => count($checklist['user_completed_tasks']),
                                     'tasks_count' => count($checklist['tasks']),
                                     'checklist_id' => $checklist['id']
                                     ])

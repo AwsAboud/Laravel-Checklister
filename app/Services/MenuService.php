@@ -5,10 +5,11 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\Checklist;
 use App\Models\ChecklistGroup;
+use App\Models\Task;
 
-class MenueService
+class MenuService
 {
-    public function getMenue(): array
+    public function getMenu(): array
     {
         // Fetch only admin checklists ( when user_id is null it means that it is admin checklist )
         $menu = ChecklistGroup::with([
@@ -19,7 +20,7 @@ class MenueService
                 $query->whereNull('tasks.user_id');
             },
             //Check checklists model
-            'checklists.user_tasks',
+            'checklists.user_completed_tasks',
         ])->get();
 
         $groups = [];
@@ -43,15 +44,41 @@ class MenueService
                     $checklist['is_updated'] =  !($group['is_updated']) && !($checklist['is_new'])
                         && Carbon::create($checklist_updated_at)->greaterThan($checklist_updated_at);
                     $checklist['tasks_count'] = count($checklist['tasks']);
-                    $checklist['completed_tasks_count'] = count($checklist['user_tasks']);
+                    $checklist['completed_tasks_count'] = count($checklist['user_completed_tasks']);
                 }
                 $groups[] = $group;
             }
         }
 
+        $user_tasks_menu = [];
+        if(! auth()->user()->is_admin){
+            // Retrieve all user tasks to count 'My Day', 'Important', and 'Planned' tasks
+            // We utilize collection methods on user_tasks to avoid querying the database each time
+            $user_tasks = Task::where('user_id', auth()->id())->get();
+            $user_tasks_menu = [
+                'my_day' => [
+                    'name' => __('My Day'),
+                    'icon' => 'sun',
+                    'tasks_count' => $user_tasks->whereNotNull('added_to_my_day_at')->count(),
+                ],
+                'important' => [
+                    'name' => __('Important'),
+                    'icon' => 'star',
+                    'tasks_count' => 0,
+                ],
+                'planned' => [
+                    'name' => __('Planned'),
+                    'icon' => 'calender',
+                    'tasks_count' => 0,
+                ],
+            ];
+
+        }
+
         return [
             'userMenu' => $groups,
             'adminMenu' => $menu,
+            'user_tasks_menu' => $user_tasks_menu
          ];
     }
 }

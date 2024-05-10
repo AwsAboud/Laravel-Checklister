@@ -18,4 +18,10 @@ class Checklist extends Model
     public function user_tasks(){
         return $this->hasMany(Task::class)->where('user_id', auth()->id());
     }
+
+    public function user_completed_tasks(){
+        return $this->hasMany(Task::class)
+            ->where('user_id', auth()->id())
+            ->whereNotNull('completed_at');
+    }
 }

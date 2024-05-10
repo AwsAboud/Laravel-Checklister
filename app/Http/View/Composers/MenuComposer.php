@@ -3,7 +3,7 @@
 namespace App\Http\View\Composers;
 
 use Illuminate\View\View;
-use App\Services\MenueService;
+use App\Services\MenuService;
 class MenuComposer
 {
 
@@ -12,9 +12,10 @@ class MenuComposer
      */
     public function compose(View $view): void
     {
-        $menue = (new  MenueService())->getMenue();
+        $menu = (new  MenuService())->getMenu();
 
-        $view->with('adminMenu', $menue['adminMenu']);
-        $view->with('userMenu', $menue['userMenu']);
+        $view->with('adminMenu', $menu['adminMenu']);
+        $view->with('userMenu', $menu['userMenu']);
+        $view->with('user_tasks_menu', $menu['user_tasks_menu']);
     }
 }

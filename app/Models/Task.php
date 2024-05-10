@@ -20,6 +20,7 @@ class Task extends Model implements HasMedia
         'user_id',
         'task_id',
         'completed_at',
+        'added_to_my_day_at',
     ];
 
 }

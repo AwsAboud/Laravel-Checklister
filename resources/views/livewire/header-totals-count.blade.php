@@ -1,5 +1,5 @@
 <div class="breadcrumb-header justify-content-between">
-    <div class="col-xl-8">
+    <div class="col-xl-6">
         <div class="card">
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
