@@ -10,6 +10,8 @@ class ChecklistShow extends Component
     public $opendTasks = [];
     public $completedTasks = [];
     public ?Task $currentTask;
+    public $dueDateOpened = FALSE;
+    public $dueDate;
 
     public function mount()
     {
@@ -144,5 +146,47 @@ class ChecklistShow extends Component
             $this->dispatch('user_tasks_counter_change','important');
         }
         $this->currentTask = $userTask;
+    }
+
+    public function toggleDueDate()
+    {
+        $this->dueDateOpened = !$this->dueDateOpened;
+    }
+
+    public function setDueDate($taskId, $dueDate = NULL)
+    {
+        $userTask = Task::where('user_id', auth()->id())
+            ->where(function ($query) use ($taskId) {
+                $query->where('id', $taskId)
+                    ->orWhere('task_id', $taskId);
+            })
+            ->first();
+
+        if ($userTask) {
+            if (is_null($dueDate)) {
+                $userTask->update(['due_date' => NULL]);
+                $this->dispatch('user_tasks_counter_change','planned',-1);
+            } else {
+                $userTask->update(['due_date' => $dueDate]);
+                $this->dispatch('user_tasks_counter_change', 'planned');
+            }
+        } else {
+            $task = Task::find($taskId);
+            $userTask = $task->replicate();
+            $userTask['user_id'] = auth()->id();
+            $userTask['task_id'] = $taskId;
+            $userTask['due_date'] = $dueDate;
+            $userTask->save();
+            $this->dispatch('user_tasks_counter_change', 'planned');
+        }
+        $this->currentTask = $userTask;
+
+    }
+
+    //This method called automaticly when the change of $dueDate attribute (it will called after picking a date from the date picker)
+    public function updatedDueDate($value)
+    {
+        dd('called');
+        $this->setDueDate($this->currentTask->id, $value);
     }
 }

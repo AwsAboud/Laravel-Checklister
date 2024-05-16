@@ -22,7 +22,8 @@ class Task extends Model implements HasMedia
         'completed_at',
         'added_to_my_day_at',
         'is_important',
+        'due_date',
     ];
-
+    protected $casts = ['due_date' => 'date'];
 }
 
