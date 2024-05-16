@@ -87,7 +87,10 @@ class ChecklistShow extends Component
     {
 
         $userTask = Task::where('user_id', auth()->id())
-            ->where('id', $taskId)
+            ->where(function($query) use ($taskId){
+                $query->where('id',$taskId)
+                    ->orWhere('task_id',$taskId);
+            })
             ->first();
 
         if($userTask){
@@ -111,4 +114,35 @@ class ChecklistShow extends Component
         $this->currentTask = $userTask;
     }
 
+    public function markTaskAsImportant($taskId)
+    {
+        $userTask = Task::where('user_id', auth()->id())
+            ->where(function ($query) use ($taskId) {
+                $query->where('id', $taskId)
+                    ->orWhere('task_id', $taskId);
+            })
+            ->first();
+
+        if($userTask){
+            if($userTask->is_important){
+                $userTask->update(['is_important' => FALSE]);
+                $this->dispatch('user_tasks_counter_change','important',-1);
+
+            }else{
+                $userTask->update(['is_important' => TRUE]);
+                $this->dispatch('user_tasks_counter_change','important');
+            }
+        }
+
+        else{
+            $task = Task::find($taskId);
+            $userTask = $task->replicate();
+            $userTask['user_id'] = auth()->id();
+            $userTask['task_id'] = $taskId;
+            $userTask['is_important'] = TRUE;
+            $userTask->save();
+            $this->dispatch('user_tasks_counter_change','important');
+        }
+        $this->currentTask = $userTask;
+    }
 }

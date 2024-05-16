@@ -26,6 +26,13 @@
                                     </svg>
                                 @endif
                             </td>
+                            <td>
+                                @if(optional($checklist->user_tasks()->where('task_id', $task->id)->first())->is_important)
+                                    <a wire:click.prevent="markTaskAsImportant({{ $task->id }})" href="#">&starf;</a>
+                                @else
+                                <a wire:click.prevent="markTaskAsImportant({{ $task->id }})" href="#">&star;</a>
+                                @endif
+                            </td>
                         </tr>
                         @if (in_array($task->id, $opendTasks))
                             <tr>
@@ -45,7 +52,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="float-right">
-                        <a href="#">&star;</a>
+                        @if($currentTask->is_important)
+                                    <a wire:click.prevent="markTaskAsImportant({{ $task->id }})" href="#">&starf;</a>
+                                @else
+                                <a wire:click.prevent="markTaskAsImportant({{ $task->id }})" href="#">&star;</a>
+                                @endif
                     </div>
                     <b>{{ $currentTask->name }}</b>
                 </div>
